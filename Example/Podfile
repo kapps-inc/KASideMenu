@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'KASideMenu_Example' do
+  pod 'KASideMenu', :path => '../'
+
+  target 'KASideMenu_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

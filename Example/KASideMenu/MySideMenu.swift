@@ -14,8 +14,8 @@ class MySideMenu: KASideMenu {
         config.leftPadding = 100
         config.thresholdPercentage = 1 / 3
         
-        leftViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Menu")
-        rightViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Menu")
+        leftMenuViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Menu")
+        rightMenuViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Menu")
         centerViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CenterViewController")
         
         super.awakeFromNib()

@@ -11,6 +11,7 @@ import UIKit
 open class KASideMenu: UIViewController {
 
     public struct Config {
+        public var animationDuration = 0.2
         public var leftPadding: CGFloat = 60
         public var rightPadding: CGFloat = 60
         public var shadowWidth: CGFloat = 5
@@ -21,9 +22,9 @@ open class KASideMenu: UIViewController {
         public var thresholdSpeed: CGFloat = 300
     }
     
-    open var leftViewController: UIViewController?
+    open var leftMenuViewController: UIViewController?
     open var centerViewController: UIViewController?
-    open var rightViewController: UIViewController?
+    open var rightMenuViewController: UIViewController?
     
     open func showRight() {
         state = .rightMenuVisible
@@ -48,20 +49,26 @@ open class KASideMenu: UIViewController {
     
     private var state: SideMenuState = .centerVisible {
         didSet {
+            var alpha: CGFloat = 0.0
+            
             switch state {
             case .centerVisible:
                 leftMenuPadding?.constant = view.bounds.width
                 rightMenuPadding?.constant = view.bounds.width
+                alpha = 0.0
             case .leftMenuVisible:
                 leftMenuPadding?.constant = config.rightPadding
+                alpha = 0.3
             case .rightMenuVisible:
                 rightMenuPadding?.constant = config.leftPadding
+                alpha = 0.3
             }
             
-            UIView.animate(withDuration: 0.15,
+            UIView.animate(withDuration: config.animationDuration,
                            delay:0.0,
                            options:.curveEaseInOut,
                            animations: {() -> Void in
+                            self.maskView.alpha = alpha
                             self.view.layoutIfNeeded()
             },
                            completion: nil
@@ -69,10 +76,18 @@ open class KASideMenu: UIViewController {
         }
     }
     
+    private let maskView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .black
+        view.alpha = 0.0
+        return view
+    }()
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
 
         addCenterViewController()
+        addMaskView()
         addLeftMenu()
         addRightMenu()
         
@@ -84,7 +99,7 @@ open class KASideMenu: UIViewController {
             config.thresholdPercentage = width / view.bounds.width
         }
     }
-
+    
     private func addGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         view.addGestureRecognizer(tapGesture)
@@ -138,8 +153,13 @@ open class KASideMenu: UIViewController {
         centerViewController.didMove(toParentViewController: self)
     }
     
+    private func addMaskView() {
+        view.addSubview(maskView)
+        maskView.frame = view.bounds
+    }
+    
     private func addLeftMenu() {
-        if let leftViewController = leftViewController {
+        if let leftViewController = leftMenuViewController {
             addChildViewController(leftViewController)
             
             let leftView = leftViewController.view!
@@ -162,7 +182,7 @@ open class KASideMenu: UIViewController {
     }
     
     private func addRightMenu() {
-        if let rightViewController = rightViewController {
+        if let rightViewController = rightMenuViewController {
             addChildViewController(rightViewController)
             
             let rightView = rightViewController.view!

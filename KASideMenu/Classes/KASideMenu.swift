@@ -18,6 +18,7 @@ open class KASideMenu: UIViewController {
         public var shadowRadius: CGFloat = 5
         public var thresholdWidth: CGFloat?
         public var thresholdPercentage: CGFloat?
+        public var thresholdSpeed: CGFloat = 300
     }
     
     open var leftViewController: UIViewController?
@@ -75,10 +76,7 @@ open class KASideMenu: UIViewController {
         addLeftMenu()
         addRightMenu()
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
-        view.addGestureRecognizer(tapGesture)
-        //pass the tap event to child
-        tapGesture.cancelsTouchesInView = false
+        addGesture()
         
         if config.thresholdWidth == nil && config.thresholdPercentage == nil {
             config.thresholdPercentage = 1 / 2
@@ -87,6 +85,17 @@ open class KASideMenu: UIViewController {
         }
     }
 
+    private func addGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        view.addGestureRecognizer(tapGesture)
+        //pass the tap event to child
+        tapGesture.cancelsTouchesInView = false
+        
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(menuDragged))
+        view.addGestureRecognizer(panGesture)
+        panGesture.cancelsTouchesInView = false
+    }
+    
     @objc private func viewTapped(_ sender: UITapGestureRecognizer) {
         if isTappedOutsideTheMenu(sender) {
             closeMenu()
@@ -149,9 +158,6 @@ open class KASideMenu: UIViewController {
             leftViewController.didMove(toParentViewController: self)
             
             setupMenu(menu: leftView, isLeft: true)
-            
-            let panGesture = UIPanGestureRecognizer(target: self, action: #selector(menuDragged))
-            leftView.addGestureRecognizer(panGesture)
         }
     }
     
@@ -175,9 +181,6 @@ open class KASideMenu: UIViewController {
             rightViewController.didMove(toParentViewController: self)
             
             setupMenu(menu: rightView, isLeft: false)
-            
-            let panGesture = UIPanGestureRecognizer(target: self, action: #selector(menuDragged))
-            rightView.addGestureRecognizer(panGesture)
         }
     }
     
@@ -204,11 +207,15 @@ open class KASideMenu: UIViewController {
         sender.setTranslation(.zero, in: view)
         
         if sender.state == .ended {
-            state = isNeedCloseAutomatically(menuCenter: sender.view!.center) ? .centerVisible : state
+            state = isNeedCloseAutomatically(sender) ? .centerVisible : state
         }
     }
     
-    private func isNeedCloseAutomatically(menuCenter: CGPoint) -> Bool {
+    private func isNeedCloseAutomatically(_ gesture: UIPanGestureRecognizer) -> Bool {
+        if isCloseGesture(gesture) && abs(gesture.velocity(in: view).x) > config.thresholdSpeed {
+            return true
+        }
+        
         guard let percentage = config.thresholdPercentage else {
             return false
         }
@@ -216,9 +223,11 @@ open class KASideMenu: UIViewController {
         let padding = state == .leftMenuVisible ? leftMenuPadding : rightMenuPadding
         let visibleMenuWidth = abs(view.bounds.width - padding!.constant)
         
-        print(visibleMenuWidth)
-        
         return visibleMenuWidth < view.bounds.width * percentage
     }
 
+    private func isCloseGesture(_ gesture: UIPanGestureRecognizer) -> Bool {
+        return (gesture.velocity(in: view).x < 0 && state == .leftMenuVisible) ||
+            (gesture.velocity(in: view).x > 0 && state == .rightMenuVisible)
+    }
 }

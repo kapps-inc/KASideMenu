@@ -1,0 +1,22 @@
+{
+  "name": "KASideMenu",
+  "version": "0.1.0",
+  "summary": "A short description of KASideMenu.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/ZhihuaZhang/KASideMenu",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "ZhihuaZhang": "shika.cho@kapps.co.jp"
+  },
+  "source": {
+    "git": "https://github.com/ZhihuaZhang/KASideMenu.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "KASideMenu/Classes/**/*"
+}

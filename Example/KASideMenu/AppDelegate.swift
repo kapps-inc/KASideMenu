@@ -3,7 +3,7 @@
 //  KASideMenu
 //
 //  Created by ZhihuaZhang on 09/12/2018.
-//  Copyright (c) 2018 ZhihuaZhang. All rights reserved.
+//  Copyright (c) 2018 Kapps Inc. All rights reserved.
 //
 
 import UIKit

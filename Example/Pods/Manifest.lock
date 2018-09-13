@@ -1,0 +1,16 @@
+PODS:
+  - KASideMenu (0.1.0)
+
+DEPENDENCIES:
+  - KASideMenu (from `../`)
+
+EXTERNAL SOURCES:
+  KASideMenu:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  KASideMenu: bd75d4c821a7bed132a1f26e37c6ed1241ba967c
+
+PODFILE CHECKSUM: a6a8e20ae75bac7f8d1fa7225e0f200a655bcbd7
+
+COCOAPODS: 1.5.3

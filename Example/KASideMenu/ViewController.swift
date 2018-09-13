@@ -3,10 +3,11 @@
 //  KASideMenu
 //
 //  Created by ZhihuaZhang on 09/12/2018.
-//  Copyright (c) 2018 ZhihuaZhang. All rights reserved.
+//  Copyright (c) 2018 Kapps Inc. All rights reserved.
 //
 
 import UIKit
+import KASideMenu
 
 class ViewController: UIViewController {
 
@@ -20,5 +21,13 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func leftMenuBtnTapped(_ sender: Any) {
+        sideMenu?.showLeft()
+    }
+    
+    @IBAction func rightMenuBtnTapped(_ sender: Any) {
+        sideMenu?.showRight()
+    }
+    
 }
 

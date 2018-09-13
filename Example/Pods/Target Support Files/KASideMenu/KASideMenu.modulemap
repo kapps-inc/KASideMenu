@@ -1,0 +1,6 @@
+framework module KASideMenu {
+  umbrella header "KASideMenu-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'KASideMenu'
-  s.version          = '0.1.0'
-  s.summary          = 'Simple side menu control for iOS.'
+  s.version          = '0.2.0'
+  s.summary          = 'Simple side menu control for iOS. Easy to use and integration'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,8 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+  KASideMenu is a simple and easy to use side menu control written in Swift.
+  Check out the example project to see it in action!
                        DESC
 
   s.homepage         = 'https://github.com/zhz821/KASideMenu'

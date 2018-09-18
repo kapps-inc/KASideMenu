@@ -17,9 +17,9 @@ open class KASideMenu: UIViewController {
         public var shadowWidth: CGFloat = 5
         public var shadowOpacity: Float = 0.5
         public var shadowRadius: CGFloat = 5
-        public var thresholdWidth: CGFloat?
-        public var thresholdPercentage: CGFloat?
-        public var thresholdSpeed: CGFloat = 300
+        public var autoClosePadding: CGFloat?
+        public var autoClosePercentage: CGFloat?
+        public var closeSpeed: CGFloat = 300
     }
     
     open var leftMenuViewController: UIViewController?
@@ -40,8 +40,8 @@ open class KASideMenu: UIViewController {
     
     open var config = Config()
     
-    private var rightMenuPadding: NSLayoutConstraint?
-    private var leftMenuPadding: NSLayoutConstraint?
+    private var leftMenuRightPadding: NSLayoutConstraint?
+    private var rightMenuLeftPadding: NSLayoutConstraint?
     
     private enum SideMenuState {
         case centerVisible, leftMenuVisible, rightMenuVisible
@@ -53,14 +53,14 @@ open class KASideMenu: UIViewController {
             
             switch state {
             case .centerVisible:
-                leftMenuPadding?.constant = view.bounds.width
-                rightMenuPadding?.constant = view.bounds.width
+                rightMenuLeftPadding?.constant = view.bounds.width
+                leftMenuRightPadding?.constant = view.bounds.width
                 alpha = 0.0
             case .leftMenuVisible:
-                leftMenuPadding?.constant = config.rightPadding
+                leftMenuRightPadding?.constant = config.rightPadding
                 alpha = 0.3
             case .rightMenuVisible:
-                rightMenuPadding?.constant = config.leftPadding
+                rightMenuLeftPadding?.constant = config.leftPadding
                 alpha = 0.3
             }
             
@@ -93,10 +93,10 @@ open class KASideMenu: UIViewController {
         
         addGesture()
         
-        if config.thresholdWidth == nil && config.thresholdPercentage == nil {
-            config.thresholdPercentage = 1 / 2
-        } else if let width = config.thresholdWidth, config.thresholdPercentage == nil {
-            config.thresholdPercentage = width / view.bounds.width
+        if config.autoClosePadding == nil && config.autoClosePercentage == nil {
+            config.autoClosePercentage = 1 / 2
+        } else if let padding = config.autoClosePadding, config.autoClosePercentage == nil {
+            config.autoClosePercentage = padding / view.bounds.width
         }
     }
     
@@ -168,11 +168,12 @@ open class KASideMenu: UIViewController {
             view.addSubview(leftView)
             
             if #available(iOS 9.0, *) {
-                leftView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-                leftView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-                leftView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
-                leftMenuPadding = view.trailingAnchor.constraint(equalTo: leftView.trailingAnchor, constant: view.bounds.width)
-                leftMenuPadding?.isActive = true
+                leftView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+                leftView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+                leftView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -config.rightPadding).isActive = true
+                leftMenuRightPadding = view.trailingAnchor.constraint(equalTo: leftView.trailingAnchor, constant: view.bounds.width)
+                leftMenuRightPadding?.isActive = true
+                
             }
             
             leftViewController.didMove(toParentViewController: self)
@@ -191,11 +192,11 @@ open class KASideMenu: UIViewController {
             view.addSubview(rightView)
             
             if #available(iOS 9.0, *) {
-                rightView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-                rightView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-                rightMenuPadding = rightView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: view.bounds.width)
-                rightMenuPadding?.isActive = true
-                rightView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
+                rightView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+                rightView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+                rightView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -config.leftPadding).isActive = true
+                rightMenuLeftPadding = rightView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: view.bounds.width)
+                rightMenuLeftPadding?.isActive = true
             }
             
             rightViewController.didMove(toParentViewController: self)
@@ -217,11 +218,11 @@ open class KASideMenu: UIViewController {
         let point = sender.translation(in: view)
         
         if state == .rightMenuVisible {
-            let constant = rightMenuPadding!.constant + point.x
-            rightMenuPadding?.constant = max(0, constant)
+            let constant = rightMenuLeftPadding!.constant + point.x
+            rightMenuLeftPadding?.constant = max(config.leftPadding, constant)
         } else if state == .leftMenuVisible {
-            let constant = leftMenuPadding!.constant - point.x
-            leftMenuPadding?.constant = max(0, constant)
+            let constant = leftMenuRightPadding!.constant - point.x
+            leftMenuRightPadding?.constant = max(config.rightPadding, constant)
         }
         
         sender.setTranslation(.zero, in: view)
@@ -232,18 +233,17 @@ open class KASideMenu: UIViewController {
     }
     
     private func isNeedCloseAutomatically(_ gesture: UIPanGestureRecognizer) -> Bool {
-        if isCloseGesture(gesture) && abs(gesture.velocity(in: view).x) > config.thresholdSpeed {
+        if isCloseGesture(gesture) && abs(gesture.velocity(in: view).x) > config.closeSpeed {
             return true
         }
         
-        guard let percentage = config.thresholdPercentage else {
+        guard let percentage = config.autoClosePercentage else {
             return false
         }
         
-        let padding = state == .leftMenuVisible ? leftMenuPadding : rightMenuPadding
-        let visibleMenuWidth = abs(view.bounds.width - padding!.constant)
+        let padding = state == .leftMenuVisible ? leftMenuRightPadding : rightMenuLeftPadding
         
-        return visibleMenuWidth < view.bounds.width * percentage
+        return abs(padding!.constant) > view.bounds.width * percentage
     }
 
     private func isCloseGesture(_ gesture: UIPanGestureRecognizer) -> Bool {

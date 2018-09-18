@@ -20,6 +20,7 @@ open class KASideMenu: UIViewController {
         public var autoClosePadding: CGFloat?
         public var autoClosePercentage: CGFloat?
         public var closeSpeed: CGFloat = 300
+        public var maskViewAlpha: CGFloat = 0.3
     }
     
     open var leftMenuViewController: UIViewController?
@@ -49,20 +50,17 @@ open class KASideMenu: UIViewController {
     
     private var state: SideMenuState = .centerVisible {
         didSet {
-            var alpha: CGFloat = 0.0
-            
             switch state {
             case .centerVisible:
                 rightMenuLeftPadding?.constant = view.bounds.width
                 leftMenuRightPadding?.constant = view.bounds.width
-                alpha = 0.0
             case .leftMenuVisible:
                 leftMenuRightPadding?.constant = config.rightPadding
-                alpha = 0.3
             case .rightMenuVisible:
                 rightMenuLeftPadding?.constant = config.leftPadding
-                alpha = 0.3
             }
+            
+            let alpha = state == .centerVisible ? 0.0 : config.maskViewAlpha
             
             UIView.animate(withDuration: config.animationDuration,
                            delay:0.0,
@@ -82,6 +80,21 @@ open class KASideMenu: UIViewController {
         view.alpha = 0.0
         return view
     }()
+    
+    private var progress: CGFloat = 0.0 {
+        didSet {
+            let alpha = config.maskViewAlpha * progress
+            
+            UIView.animate(withDuration: config.animationDuration,
+                           delay:0.0,
+                           options:.curveEaseInOut,
+                           animations: {() -> Void in
+                            self.maskView.alpha = alpha
+            },
+                           completion: nil
+            )
+        }
+    }
     
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -220,9 +233,13 @@ open class KASideMenu: UIViewController {
         if state == .rightMenuVisible {
             let constant = rightMenuLeftPadding!.constant + point.x
             rightMenuLeftPadding?.constant = max(config.leftPadding, constant)
+            
+            progress = (view.bounds.width - constant) / (view.bounds.width - config.leftPadding)
         } else if state == .leftMenuVisible {
             let constant = leftMenuRightPadding!.constant - point.x
             leftMenuRightPadding?.constant = max(config.rightPadding, constant)
+            
+            progress = (view.bounds.width - constant) / (view.bounds.width - config.rightPadding)
         }
         
         sender.setTranslation(.zero, in: view)

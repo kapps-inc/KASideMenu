@@ -190,8 +190,6 @@ open class KASideMenu: UIViewController {
             }
             
             leftViewController.didMove(toParentViewController: self)
-            
-            setupMenu(menu: leftView, isLeft: true)
         }
     }
     
@@ -213,18 +211,7 @@ open class KASideMenu: UIViewController {
             }
             
             rightViewController.didMove(toParentViewController: self)
-            
-            setupMenu(menu: rightView, isLeft: false)
         }
-    }
-    
-    private func setupMenu(menu: UIView, isLeft: Bool) {
-        let layer = menu.layer
-        layer.masksToBounds = false
-        layer.shadowOffset = CGSize(width: isLeft ? config.shadowWidth : -config.shadowWidth, height: 0)
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = config.shadowOpacity;
-        layer.shadowRadius = config.shadowRadius;
     }
     
     @objc private func menuDragged(_ sender: UIPanGestureRecognizer) {

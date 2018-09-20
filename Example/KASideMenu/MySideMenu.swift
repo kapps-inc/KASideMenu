@@ -9,10 +9,10 @@
 import UIKit
 import KASideMenu
 
-class MySideMenu: KASideMenu {
+class MySideMenu: KASideMenuController {
     override func awakeFromNib() {
         config.leftPadding = 100
-        config.autoClosePercentage = 1 / 3
+//        config.autoClosePercentage = 1 / 3
         
         leftMenuViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LeftMenuViewController")
         rightMenuViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RightMenuViewController")

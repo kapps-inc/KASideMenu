@@ -22,11 +22,11 @@ class ViewController: UIViewController {
     }
 
     @IBAction func leftMenuBtnTapped(_ sender: Any) {
-        sideMenu?.showLeft()
+        sideMenuController?.openLeft()
     }
     
     @IBAction func rightMenuBtnTapped(_ sender: Any) {
-        sideMenu?.showRight()
+        sideMenuController?.openRight()
     }
     
 }

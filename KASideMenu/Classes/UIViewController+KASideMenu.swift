@@ -9,12 +9,12 @@
 import UIKit
 
 extension UIViewController {
-    public var sideMenu: KASideMenu? {
+    public var sideMenuController: KASideMenuController? {
         var parent = self.parent
         
         while parent != nil {
-            if parent is KASideMenu {
-                return parent as? KASideMenu
+            if parent is KASideMenuController {
+                return parent as? KASideMenuController
             } else {
                 parent = parent?.parent
             }

@@ -14,9 +14,12 @@ enum KASideMenuType {
 
 class KASideMenuView: UIView {
 
-    var menuType: KASideMenuType
-    var padding: CGFloat
-    var paddingConstraint: NSLayoutConstraint!
+    private var menuType: KASideMenuType
+    private var padding: CGFloat
+    private var paddingConstraint: NSLayoutConstraint!
+    private var shadowWidth: CGFloat
+    private var shadowOpacity: Float
+    private var shadowRadius: CGFloat
     
     var progress: CGFloat {
         guard let superview = superview else {
@@ -30,15 +33,24 @@ class KASideMenuView: UIView {
         return paddingConstraint.constant
     }
     
-    init(menuType: KASideMenuType, padding: CGFloat) {
+    init(menuType: KASideMenuType,
+         padding: CGFloat,
+         shadowWidth: CGFloat = 5.0,
+         shadowOpacity: Float = 0.5,
+         shadowRadius: CGFloat = 5.0) {
         self.menuType = menuType
         self.padding = padding
+        self.shadowWidth = shadowWidth
+        self.shadowOpacity = shadowOpacity
+        self.shadowRadius = shadowRadius
         
         super.init(frame: .zero)
 
         translatesAutoresizingMaskIntoConstraints = false
         
         addGesture()
+        
+        addShadow()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -68,6 +80,7 @@ class KASideMenuView: UIView {
     
     func open(animated: Bool = true, duration: TimeInterval = 0.0) {
         updatePosition(constant: padding, animated: animated, duration: duration)
+        showShadow()
     }
     
     func close(animated: Bool = true, duration: TimeInterval = 0.0) {
@@ -76,15 +89,30 @@ class KASideMenuView: UIView {
         }
         
         updatePosition(constant: superview.bounds.width, animated: animated, duration: duration)
+        hideShadow()
     }
     
     func move(distance: CGFloat) {
-        print(distance)
-        
         let constant = menuType == .left ? paddingConstraint.constant - distance :
             paddingConstraint.constant + distance
         
         updatePosition(constant: max(padding, constant), animated: false)
+    }
+    
+    private func addShadow() {
+        layer.masksToBounds = false
+        layer.shadowOffset = CGSize(width: menuType == .left ? shadowWidth : -shadowWidth, height: 0)
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.0
+        layer.shadowRadius = shadowRadius
+    }
+    
+    private func showShadow() {
+        layer.shadowOpacity = shadowOpacity
+    }
+    
+    private func hideShadow() {
+        layer.shadowOpacity = 0.0
     }
     
     private func updatePosition(constant: CGFloat, animated: Bool, duration: TimeInterval = 0) {
@@ -99,6 +127,7 @@ class KASideMenuView: UIView {
                            delay:0.0,
                            options:.curveEaseInOut,
                            animations: {() -> Void in
+                            
                             superview.layoutIfNeeded()
             },
                            completion: nil

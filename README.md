@@ -18,7 +18,7 @@ Build the example from the `Example` directory.
 
 ## Requirements
 
-- XCode 9.
+- XCode 10.
 - iOS 9.0+
 
 ## Installation

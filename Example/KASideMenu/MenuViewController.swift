@@ -20,6 +20,6 @@ class MenuViewController: UITableViewController {
 
 extension MenuViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        sideMenuController?.closeMenu()
+        sideMenu?.closeMenu()
     }
 }

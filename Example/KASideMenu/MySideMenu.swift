@@ -9,7 +9,7 @@
 import UIKit
 import KASideMenu
 
-class MySideMenu: KASideMenuController {
+class MySideMenu: KASideMenu {
     override func awakeFromNib() {
         config.leftPadding = 100
 //        config.autoClosePercentage = 1 / 3

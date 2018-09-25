@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class KASideMenuController: UIViewController {
+open class KASideMenu: UIViewController {
     
     public struct Config {
         public var animationDuration: TimeInterval = 0.2

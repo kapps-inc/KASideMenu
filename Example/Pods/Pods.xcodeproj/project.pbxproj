@@ -16,8 +16,8 @@
 		A2865913D52C2D21BD3AC0CB2B22214C /* Pods-KASideMenu_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E19B51FEAA7702019578825D0166D11C /* Pods-KASideMenu_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B99C6ACED9E1CC7AAF634B598D3BA8F3 /* Pods-KASideMenu_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2820062C3817B499FB0400DB1F0C3E60 /* Pods-KASideMenu_Example-dummy.m */; };
 		DC45ED942149038D00C85F83 /* UIViewController+KASideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC45ED932149038D00C85F83 /* UIViewController+KASideMenu.swift */; };
-		DC56CEBA215335DC0041F2F5 /* KASideMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC56CEB8215335DC0041F2F5 /* KASideMenuController.swift */; };
 		DC56CEBB215335DC0041F2F5 /* KASideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC56CEB9215335DC0041F2F5 /* KASideMenuView.swift */; };
+		DCDCF863215A064E00CFED61 /* KASideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDCF862215A064E00CFED61 /* KASideMenu.swift */; };
 		FA916BBF5F41153335B0673B305ED284 /* KASideMenu-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0308F45FF54E521D2ACF93B7F7FB7436 /* KASideMenu-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -70,8 +70,8 @@
 		C3AFB443926DFFA81E1EE28CD9808EF7 /* Pods-KASideMenu_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-KASideMenu_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		C791C0BDC80F963F4BCC441F968693C0 /* Pods_KASideMenu_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KASideMenu_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC45ED932149038D00C85F83 /* UIViewController+KASideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIViewController+KASideMenu.swift"; path = "KASideMenu/Classes/UIViewController+KASideMenu.swift"; sourceTree = "<group>"; };
-		DC56CEB8215335DC0041F2F5 /* KASideMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KASideMenuController.swift; path = KASideMenu/Classes/KASideMenuController.swift; sourceTree = "<group>"; };
 		DC56CEB9215335DC0041F2F5 /* KASideMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KASideMenuView.swift; path = KASideMenu/Classes/KASideMenuView.swift; sourceTree = "<group>"; };
+		DCDCF862215A064E00CFED61 /* KASideMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KASideMenu.swift; path = KASideMenu/Classes/KASideMenu.swift; sourceTree = "<group>"; };
 		E19B51FEAA7702019578825D0166D11C /* Pods-KASideMenu_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-KASideMenu_Tests-umbrella.h"; sourceTree = "<group>"; };
 		ED5173D249B9D8DAD7ED47021E9EC288 /* Pods-KASideMenu_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-KASideMenu_Tests.modulemap"; sourceTree = "<group>"; };
 		F51B900B3CB8C52FDDA582FD03D3B784 /* KASideMenu-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KASideMenu-prefix.pch"; sourceTree = "<group>"; };
@@ -191,8 +191,8 @@
 		8756D3EC8F0F7B8FE34EDAD69AFA006F /* KASideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				DCDCF862215A064E00CFED61 /* KASideMenu.swift */,
 				DC45ED932149038D00C85F83 /* UIViewController+KASideMenu.swift */,
-				DC56CEB8215335DC0041F2F5 /* KASideMenuController.swift */,
 				DC56CEB9215335DC0041F2F5 /* KASideMenuView.swift */,
 				E38D7572C64AF3D090BCE80D4454BF2B /* Pod */,
 				8A64A87CC0440B0AA1E623B0F0473FEE /* Support Files */,
@@ -393,7 +393,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC56CEBB215335DC0041F2F5 /* KASideMenuView.swift in Sources */,
-				DC56CEBA215335DC0041F2F5 /* KASideMenuController.swift in Sources */,
+				DCDCF863215A064E00CFED61 /* KASideMenu.swift in Sources */,
 				746A5A241ACA3374EF6DB95D23B6270E /* KASideMenu-dummy.m in Sources */,
 				DC45ED942149038D00C85F83 /* UIViewController+KASideMenu.swift in Sources */,
 			);

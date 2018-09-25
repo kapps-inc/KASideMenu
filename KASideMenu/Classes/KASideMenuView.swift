@@ -13,7 +13,7 @@ enum KASideMenuType {
 }
 
 class KASideMenuView: UIView {
-
+    
     private var menuType: KASideMenuType
     private var padding: CGFloat
     private var paddingConstraint: NSLayoutConstraint!
@@ -45,7 +45,7 @@ class KASideMenuView: UIView {
         self.shadowRadius = shadowRadius
         
         super.init(frame: .zero)
-
+        
         translatesAutoresizingMaskIntoConstraints = false
         
         addGesture()
@@ -59,9 +59,6 @@ class KASideMenuView: UIView {
     
     func attachTo(view: UIView) {
         view.addSubview(self)
-        
-        //TODO: delete this
-        backgroundColor = .red
         
         if #available(iOS 9.0, *) {
             topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -79,8 +76,8 @@ class KASideMenuView: UIView {
     }
     
     func open(animated: Bool = true, duration: TimeInterval = 0.0) {
-        updatePosition(constant: padding, animated: animated, duration: duration)
         showShadow()
+        updatePosition(constant: padding, animated: animated, duration: duration)
     }
     
     func close(animated: Bool = true, duration: TimeInterval = 0.0) {
@@ -89,7 +86,11 @@ class KASideMenuView: UIView {
         }
         
         updatePosition(constant: superview.bounds.width, animated: animated, duration: duration)
-        hideShadow()
+        
+        //hide shadow after the menu has been closed
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            self.hideShadow()
+        }
     }
     
     func move(distance: CGFloat) {
@@ -127,11 +128,8 @@ class KASideMenuView: UIView {
                            delay:0.0,
                            options:.curveEaseInOut,
                            animations: {() -> Void in
-                            
                             superview.layoutIfNeeded()
-            },
-                           completion: nil
-            )
+            }, completion: nil)
         }
     }
     

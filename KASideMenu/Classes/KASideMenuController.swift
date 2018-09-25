@@ -108,6 +108,9 @@ open class KASideMenuController: UIViewController {
         super.viewDidLoad()
         
         addCenterViewController()
+        addMenuViewController(viewController: leftMenuViewController, type: .left)
+        addMenuViewController(viewController: rightMenuViewController, type: .right)
+        
         addMaskView()
         setupMenuView()
         addGesture()
@@ -133,6 +136,33 @@ open class KASideMenuController: UIViewController {
         }
         
         centerViewController.didMove(toParent: self)
+    }
+    
+    private func addMenuViewController(viewController: UIViewController?, type: KASideMenuType) {
+        guard let viewController = viewController else { return }
+        
+        addChild(viewController)
+        
+        let menuView = menuFor(type: type)
+        
+        menuView.addSubview(viewController.view)
+        viewController.view.translatesAutoresizingMaskIntoConstraints = false
+        viewController.view.topAnchor.constraint(equalTo: menuView.topAnchor).isActive = true
+        viewController.view.bottomAnchor.constraint(equalTo: menuView.bottomAnchor).isActive = true
+        viewController.view.leadingAnchor.constraint(equalTo: menuView.leadingAnchor).isActive = true
+        viewController.view.trailingAnchor.constraint(equalTo: menuView.trailingAnchor).isActive = true
+        
+        viewController.didMove(toParent: self)
+    }
+    
+    //TODO: other way?
+    private func menuFor(type: KASideMenuType) -> KASideMenuView {
+        switch type {
+        case .left:
+            return leftMenuView
+        case .right:
+            return rightMenuView
+        }
     }
     
     private func addMaskView() {

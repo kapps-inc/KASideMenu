@@ -21,6 +21,7 @@ open class KASideMenu: UIViewController {
         public var autoClosePercentage: CGFloat?
         public var closeSpeed: CGFloat = 300
         public var maskViewAlpha: CGFloat = 0.3
+        public var menuWidth: CGFloat?
     }
     
     open var leftMenuViewController: UIViewController?
@@ -41,9 +42,11 @@ open class KASideMenu: UIViewController {
     
     open var config = Config()
     
-    private lazy var leftMenuView = KASideMenuView(menuType: .left, padding: config.rightPadding)
-    private lazy var rightMenuView = KASideMenuView(menuType: .right, padding: config.leftPadding)
-    
+    private lazy var leftMenuView = KASideMenuView(menuType: .left,
+            padding: config.menuWidth == nil ? config.rightPadding : (view.bounds.width - config.menuWidth!))
+    private lazy var rightMenuView = KASideMenuView(menuType: .right,
+            padding: config.menuWidth == nil ? config.leftPadding : (view.bounds.width - config.menuWidth!))
+
     private lazy var menuViews = [leftMenuView, rightMenuView]
     
     private let maskView: UIView = {

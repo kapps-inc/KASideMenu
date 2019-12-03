@@ -43,10 +43,10 @@ open class KASideMenu: UIViewController {
     open var config = Config()
     
     private lazy var leftMenuView = KASideMenuView(menuType: .left,
-            padding: config.menuWidth == nil ? config.rightPadding : (view.bounds.width - config.menuWidth!))
+                                                 padding: config.menuWidth == nil ? config.rightPadding : (view.bounds.width - config.menuWidth!))
     private lazy var rightMenuView = KASideMenuView(menuType: .right,
-            padding: config.menuWidth == nil ? config.leftPadding : (view.bounds.width - config.menuWidth!))
-
+                                                  padding: config.menuWidth == nil ? config.leftPadding : (view.bounds.width - config.menuWidth!))
+    
     private lazy var menuViews = [leftMenuView, rightMenuView]
     
     private let maskView: UIView = {

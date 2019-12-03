@@ -50,7 +50,7 @@ class KASideMenuView: UIView {
         
         addGesture()
         
-        addShadow()
+        addShadowForMenu()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -100,7 +100,7 @@ class KASideMenuView: UIView {
         updatePosition(constant: max(padding, constant), animated: false)
     }
     
-    private func addShadow() {
+    private func addShadowForMenu() {
         layer.masksToBounds = false
         layer.shadowOffset = CGSize(width: menuType == .left ? shadowWidth : -shadowWidth, height: 0)
         layer.shadowColor = UIColor.black.cgColor

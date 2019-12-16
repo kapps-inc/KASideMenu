@@ -28,12 +28,17 @@ open class KASideMenu: UIViewController {
     open var centerViewController: UIViewController?
     open var rightMenuViewController: UIViewController?
     
+    private var panGestureRecognizer: UIPanGestureRecognizer?
+    private var tapGestureRecognizer: UITapGestureRecognizer?
+    
     open func openRight() {
         visableMenuView = rightMenuView
+        addGesture()
     }
     
     open func openLeft() {
         visableMenuView = leftMenuView
+        addGesture()
     }
     
     open func closeMenu() {
@@ -63,6 +68,7 @@ open class KASideMenu: UIViewController {
         didSet {
             if let oldValue = oldValue, visableMenuView != oldValue {
                 oldValue.close(duration: config.animationDuration)
+                closeGesture()
             }
             
             visableMenuView?.open(duration: config.animationDuration)
@@ -116,7 +122,6 @@ open class KASideMenu: UIViewController {
         
         addMaskView()
         setupMenuView()
-        addGesture()
     }
     
     private func addCenterViewController() {
@@ -185,10 +190,20 @@ open class KASideMenu: UIViewController {
         maskView.addGestureRecognizer(tapGesture)
         //pass the tap event to child
         tapGesture.cancelsTouchesInView = false
+        tapGestureRecognizer = tapGesture
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(menuDragged))
         view.addGestureRecognizer(panGesture)
         panGesture.cancelsTouchesInView = false
+        panGestureRecognizer = panGesture
+    }
+    
+    private func closeGesture() {
+        guard let panGestureRecognizer = panGestureRecognizer, let tapGestureRecognizer = tapGestureRecognizer else {
+            return
+        }
+        view.removeGestureRecognizer(panGestureRecognizer)
+        maskView.removeGestureRecognizer(tapGestureRecognizer)
     }
     
     @objc private func viewTapped(_ sender: UITapGestureRecognizer) {

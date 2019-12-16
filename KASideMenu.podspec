@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'KASideMenu'
-  s.version          = '1.1.0'
+  s.version          = '1.1.1'
   s.summary          = 'Simple side menu control for iOS. Easy to use and integration'
 
 # This description is used to generate tags and improve search results.
@@ -22,11 +22,11 @@ Pod::Spec.new do |s|
   Check out the example project to see it in action!
                        DESC
 
-  s.homepage         = 'https://github.com/zhz821/KASideMenu'
+  s.homepage         = 'https://github.com/kapps-inc/KASideMenu'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'ZhihuaZhang' => 'shika.cho@kapps.co.jp' }
-  s.source           = { :git => 'https://github.com/zhz821/KASideMenu.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/kapps-inc/KASideMenu.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '9.0'
